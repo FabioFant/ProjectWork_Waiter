@@ -1,16 +1,27 @@
 import { Injectable } from '@angular/core';
 import Order from '../modules/Order';
+import { enviroment } from '../../enviroments/enviroment';
+import { HttpClient,HttpHeaders} from '@angular/common/http';
+import Table from '../modules/Table';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WaiterService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  GetAllTables(){}
+  private headers = new HttpHeaders({   // VA TOLTO SERVE SOLO PER TESTARE LE RICHIESTE PRIMA DI IMPLEMENTARE L'INTERCEPTOR
+    'Authorization': `Bearer ${enviroment.token}`
+  });
+  GetAllTables(){
+    
+    return this.http.get<Table[]>(`${enviroment.apiUrl}/waiters/tables`,{headers: this.headers});
+  }
 
-  GetTableById(tableId: number) {}
+  GetTableById(tableId: number) {
+
+  }
   
   OpenTable(tableId: number, occupants: number) {}
 
