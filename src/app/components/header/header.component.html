@@ -1,8 +1,9 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm px-3">
   <div class="container-fluid">
-    <a class="text-success fs-4" routerLink="libri/nuovo" title="Aggiungi nuovo libro">
+    <a class="text-black fs-4" routerLink="" title="Torna alla home" *ngIf="true">
         <i class="bi bi-house-door-fill"></i>
     </a>
+    <span>{{messaggio}}</span>
     <div class="d-flex align-items-center ms-auto gap-3">
       <button class="btn btn-outline-danger btn-sm" (click)="Logout()">Logout</button>
     </div>

@@ -1,15 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
 
-  constructor (private router:Router) {}
+  url:string;
+  messaggio:string;
+  id?:number;
+  constructor (private route:ActivatedRoute, private router:Router)
+  {
+    this.url="";
+    console.log(router.url);
+    this.messaggio="";
+  }
 
   Logout()
   {
