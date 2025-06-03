@@ -1,0 +1,5 @@
+qrcode, qrcode img, qrcode svg {
+  display: block !important;
+  margin: 2rem auto !important;
+  background: white !important;
+}

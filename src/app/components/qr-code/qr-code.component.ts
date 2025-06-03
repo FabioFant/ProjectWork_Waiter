@@ -11,5 +11,5 @@ import { TableDetailComponent } from '../table-detail/table-detail.component';
   styleUrl: './qr-code.component.css'
 })
 export class QrCodeComponent {
-  
+  qrData = 'https://storage.googleapis.com/pw2025/';
 }

@@ -13,19 +13,21 @@ import { TablesComponent } from '../tables/tables.component';
 })
 export class TableDetailComponent {
   tableId: number = 0;
-  constructor(private waiterService: WaiterService, private router: Router,private route :ActivatedRoute) {
-    this.route.paramMap.subscribe(params => {
-      this.tableId = Number(params.get('id'));
-    })
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.tableId = Number(this.route.snapshot.paramMap.get('id'));
   }
-  Order() {
-    this.router.navigate([OrderComponent]);
+
+  showQrCode() {
+    this.router.navigate(['tables', this.tableId, 'qrcode']);
   }
-  QrCode() {
-    this.router.navigate(['/qr-code']);
+  showOrder() {
+    this.router.navigate(['tables', this.tableId, 'order']);
   }
-  Close(){
-    this.waiterService.CloseTable(this.tableId);
-    this.router.navigate([TablesComponent]);
+  showBill() {
+    this.router.navigate(['tables', this.tableId, 'bill']);
+  }
+  closeTable() {
+    this.router.navigate(['']);
   }
 }
