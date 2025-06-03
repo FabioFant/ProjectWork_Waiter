@@ -1,5 +1,6 @@
 export default interface Category{ 
-    categoryId: number;
+    id: number;
     name: string;
     image:string;
+    orderIndex:number;
 }
