@@ -1,4 +1,34 @@
-<div style="width: 15px;">
-    <i class="bi bi-plus-circle-fill"></i>
-    <i class="bi bi-trash3-fill"></i>
+<div>
+    <div class="d-flex align-items-center justify-content-between">
+        <h2>New order</h2>
+        <i routerLink="add" class="bi bi-plus-circle-fill text-danger"></i>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ordine of ordini">
+                    <td>{{ordine.product}}</td>
+                    <td>{{ordine.qty}}</td>
+                    <ng-component *ngIf="ordine.completionDate!=null">
+                        <td ><span class="text-green">Prepared</span></td>
+                        <td>-</td>
+                    </ng-component>
+                    <ng-component *ngIf="ordine.completionDate==null">
+                        <td ><span class="text-red">To be prepared</span></td>
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </ng-component>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
