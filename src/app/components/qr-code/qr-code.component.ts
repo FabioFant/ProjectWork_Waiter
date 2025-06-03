@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { QRCodeComponent } from 'angularx-qrcode';
+
 import { WaiterService } from '../../services/waiter.service';
 import { TableDetailComponent } from '../table-detail/table-detail.component';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-qr-code',
