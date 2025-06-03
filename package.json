@@ -18,7 +18,6 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@auth0/angular-jwt": "^5.2.0",
-    "angular-qrcode": "^7.2.0",
     "angularx-qrcode": "^19.0.0",
     "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.13.1",
