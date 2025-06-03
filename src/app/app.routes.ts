@@ -6,16 +6,15 @@ import { TableDetailComponent } from './components/table-detail/table-detail.com
 import { BillComponent } from './components/bill/bill.component';
 import { OrderComponent } from './components/order/order.component';
 import { AddOrderComponent } from './components/add-order/add-order.component';
-import { QRCodeComponent } from 'angularx-qrcode';
+import { AuthGuard } from './guards/auth.guard';
 
 // TODO : Add auth guards
 export const routes: Routes = [
-    { path: '', component: TablesComponent,  },
+    { path: '', component: TablesComponent, canActivate:[AuthGuard]},
     { path: 'login', component: LoginComponent,  },
-    { path: 'tables/:id', component: TableDetailComponent,  },
-    { path: 'tables/:id/bill', component: BillComponent,  },
-    { path: 'tables/:id/qrcode', component: QRCodeComponent,  },
-    { path: 'tables/:id/order', component: OrderComponent,  },
-    { path: 'tables/:id/order/add', component: AddOrderComponent,  },
+    { path: 'tables/:id', component: TableDetailComponent, canActivate:[AuthGuard]},
+    { path: 'tables/:id/bill', component: BillComponent, canActivate:[AuthGuard]},
+    { path: 'tables/:id/order', component: OrderComponent, canActivate:[AuthGuard]},
+    { path: 'tables/:id/order/add', component: AddOrderComponent, canActivate:[AuthGuard]},
     { path: '**', component: NotfoundComponent,  },
 ];
