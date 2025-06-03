@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import Order from '../modules/Order';
+import Order from '../models/Order';
 import { enviroment } from '../../enviroments/enviroment';
 import { HttpClient,HttpHeaders} from '@angular/common/http';
-import Table from '../modules/Table';
+import Table from '../models/Table';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class WaiterService {
   }
 
   GetTableById(tableId: number) {
-
+    
   }
   
   OpenTable(tableId: number, occupants: number) {}
