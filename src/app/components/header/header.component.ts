@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ export class HeaderComponent {
   url:string;
   messaggio:string;
   id?:number;
-  constructor (private route:ActivatedRoute, private router:Router)
+  constructor (private route:ActivatedRoute, private router:Router, private authService:AuthService)
   {
     this.url="";
     console.log(router.url);
@@ -22,6 +23,6 @@ export class HeaderComponent {
 
   Logout()
   {
-    //this.authService.logout().subscribe( r => this.router.navigate(['login']));
+    this.authService.logout().subscribe( r => this.router.navigate(['login']));
   }
 }
