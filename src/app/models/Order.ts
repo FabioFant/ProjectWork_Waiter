@@ -5,4 +5,5 @@ export default interface Order {
     orderId:number;
     orderDate:Date;
     completionDate:Date | null;
+    total:number
 }

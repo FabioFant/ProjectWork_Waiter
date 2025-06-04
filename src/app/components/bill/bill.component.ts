@@ -13,12 +13,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BillComponent {
   ordini:Order[]=[];
-  totale=0;
+  bill:number=0;
   constructor(private route:ActivatedRoute, private waiterService:WaiterService)
   {
     waiterService.GetTableBill(route.snapshot.params['id']).subscribe(r => {
       this.ordini=r.orders;
-      this.totale=r.totalPrice;
+      for(let i=0;i<this.ordini.length;i++)
+      {
+        this.ordini[i].total=Math.floor(this.ordini[i].product.price*this.ordini[i].product.qty*100)/100;
+        this.bill+=this.ordini[i].total;
+      }
     });
   }
 }
