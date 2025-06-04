@@ -12,11 +12,22 @@ import { RouterLink } from '@angular/router';
 })
 export class TablesComponent {
   tables: Table[] = [];
+  available = '?';
+  occupied = '?';
 
   constructor(private waiterService: WaiterService)
   {
     this.waiterService.GetAllTables().subscribe(r => {
       this.tables = r;
+      let count = 0;
+      this.tables.forEach(t => {
+        if (t.occupied) {
+          count++;
+        }
+      })
+
+      this.occupied = count.toString();
+      this.available = (this.tables.length - count).toString();
     });
   }
 }
