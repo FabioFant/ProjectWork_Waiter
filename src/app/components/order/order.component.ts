@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class OrderComponent {
   tableId:number;
-  ordini?:Order[] = [];
+  ordini:Order[] = [];
 
   constructor(private route:ActivatedRoute, private service:WaiterService){
     this.tableId = this.route.snapshot.params["id"]
@@ -20,7 +20,7 @@ export class OrderComponent {
   }
   getTableOrder(){
     this.service.GetTableOrder(this.tableId).subscribe({
-      next: r => this.ordini = r?.orders,
+      next: r => {this.ordini = r.orders; console.dir(this.ordini)},
       error: e => alert("Error fetching orders")
     })
   }
@@ -28,7 +28,7 @@ export class OrderComponent {
     this.service.DeleteTableOrderById(this.tableId, orderId).subscribe({
       next: () => {
         //togli l'ordine dalla lista egli ordini e dalla tabella
-        this.ordini = this.ordini?.filter(o => o.orderId != orderId);
+        this.ordini = this.ordini.filter(o => o.orderId != orderId);
         //document.getElementById(`order-${orderId}`)?.remove();
       },
       error: e => alert("Error deleting order")
