@@ -1,8 +1,8 @@
-#messaggio{
+#messaggio, #home, #back{
     font-size: 1.3em;
     font-weight: bold;
-    color: black;
+    color: white;
 }
-:text-secondary{
-    color: black !important;
+#header{
+    background-color: #0d6efd !important;
 }

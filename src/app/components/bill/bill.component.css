@@ -1,0 +1,11 @@
+#bill td, #bill th{
+    border: 0.05em solid rgb(34, 33, 33);
+}
+#bill{
+    margin: 1em auto;
+}
+#bill th{
+    background-color: rgb(63, 63, 63);
+    color: white;
+    text-align: start;
+}
