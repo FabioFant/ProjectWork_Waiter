@@ -20,7 +20,7 @@ export class OrderComponent {
   }
   getTableOrder(){
     this.service.GetTableOrder(this.tableId).subscribe({
-      next: r => {this.ordini = r.orders; console.dir(this.ordini)},
+      next: r => this.ordini = r.orders,
       error: e => alert("Error fetching orders")
     })
   }
