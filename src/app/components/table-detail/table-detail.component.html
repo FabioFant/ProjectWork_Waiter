@@ -1,8 +1,8 @@
 <div *ngIf="!occupied&&!qrcode" class="operations">
-    <label class="form-label">Occupants</label>
-    <input [(ngModel)]="occupants" name="occupants" type="number" class="form-control" min="1"(input)="checkOccupants()" >
+    <label for="occupants" class="form-label">Occupants</label>
+    <input [(ngModel)]="occupants" id="occupants" type="number" class="form-control" min="1"(input)="checkOccupants()" >
     <div *ngIf="occupants<1" style="color:red; margin-top:4px;">{{ errorMsg }}</div>
-    <button class="operation" (click)="openTable()">Open Table</button>
+    <button class="operation" (click)="openTable()" [disabled]="!checkOccupants()">Open Table</button>
 </div>
 <div *ngIf="occupied&&!qrcode"  class="operations">
     <button class="operation" (click)="showBill()">Bill</button>
@@ -13,20 +13,19 @@
 <div *ngIf="qrcode">
     <div class="qrcodeImage">
   <qrcode
-    [qrdata]="'https://go.ordelivery.shop/#/restaurantPage?string_id=Y75ST'"
+    [qrdata]="qrdata"
     [allowEmptyString]="true"
     [ariaLabel]="'QR Code image with the following content...'"
     [cssClass]="'center'"
     [colorDark]="'#000000ff'"
     [colorLight]="'#ffffffff'"
-    [elementType]="'canvas'"
+    [elementType]="'img'"
     [errorCorrectionLevel]="'H'"
-    [imageSrc]="'./assets/angular-logo.png'"
     [imageHeight]="75"
     [imageWidth]="75"
     [margin]="4"
     [scale]="1"
-    [title]="'A custom title attribute'"
+    [title]="'Table Key'"
     [width]="400"
   ></qrcode>
 </div>
