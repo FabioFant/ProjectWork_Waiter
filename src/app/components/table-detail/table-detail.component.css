@@ -21,3 +21,13 @@ input{
     font-size: 1.5em;
     font-weight: bold;
 }
+qrcode, qrcode img, qrcode svg {
+  display: block !important;
+  margin: 2rem auto !important;
+  background: white !important;
+}
+.qrcodeImage {
+  display: flex;
+  justify-content: center;
+  align-items: center 
+}

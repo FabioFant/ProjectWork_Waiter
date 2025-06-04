@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WaiterService } from '../../services/waiter.service';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-table-detail',
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf,QRCodeComponent],
   templateUrl: './table-detail.component.html',
   styleUrl: './table-detail.component.css'
 })
@@ -16,6 +16,7 @@ export class TableDetailComponent {
   occupied!: boolean;
   occupants: number = 0;
   errorMsg: string = '';
+  qrcode: boolean = false;
 
   constructor(private waiterService: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = Number(this.route.snapshot.paramMap.get('id'));
@@ -30,7 +31,7 @@ export class TableDetailComponent {
   }
 
   showQrCode() {
-    this.router.navigate(["tables", this.tableId, "qrcode"]);
+    this.qrcode = true;
   }
   showOrder() {
     this.router.navigate(['tables', this.tableId, 'order']);

@@ -7,7 +7,6 @@ import { BillComponent } from './components/bill/bill.component';
 import { OrderComponent } from './components/order/order.component';
 import { AddOrderComponent } from './components/add-order/add-order.component';
 import { AuthGuard } from './guards/auth.guard';
-import { QrCodeComponent } from './components/qr-code/qr-code.component';
 
 export const routes: Routes = [
     { path: '', component: TablesComponent, canActivate:[AuthGuard]},
@@ -16,6 +15,5 @@ export const routes: Routes = [
     { path: 'tables/:id/bill', component: BillComponent, canActivate:[AuthGuard]},
     { path: 'tables/:id/order', component: OrderComponent, canActivate:[AuthGuard]},
     { path: 'tables/:id/order/add', component: AddOrderComponent, canActivate:[AuthGuard]},
-    { path: 'tables/:id/qrcode', component: QrCodeComponent, canActivate:[AuthGuard]},
     { path: '**', component: NotfoundComponent,  },
 ];
