@@ -3,7 +3,7 @@
     transform: scale(1.25);
 
 }
-#username, #password{
-    border-radius: 0.5em ;
+input[name="username"], input[name="password"] {
+    border-radius: 0.5em;
     border: 0.01em solid #0d6efd;
 }
