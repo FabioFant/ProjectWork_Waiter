@@ -67,12 +67,14 @@ export class AddOrderComponent {
 
   inviaOrdine(){
     const products = this.productsForCategory.flat().filter(product => product.qty > 0);
-    this.service.AddTableOrder(this.tableId, products).subscribe({
-      next: () => {
-        // Clear local storage for products after order is sent
-        products.forEach(product => localStorage.removeItem(product.name));
-        this.router.navigate(['tables/' + this.tableId + '/order']);
-      }
-    });
+    if(products.length > 0) {
+      this.service.AddTableOrder(this.tableId, products).subscribe({
+        next: () => {
+          // Clear local storage for products after order is sent
+          products.forEach(product => localStorage.removeItem(product.name));
+          this.router.navigate(['tables/' + this.tableId + '/order']);
+        }
+      });
+    }
   }
 }
