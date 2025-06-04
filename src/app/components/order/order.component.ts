@@ -16,12 +16,22 @@ export class OrderComponent {
 
   constructor(private route:ActivatedRoute, private service:WaiterService){
     this.tableId = this.route.snapshot.params["id"]
+    this.getTableOrder();
   }
-  GetTableOrder(){
-    /*this.service.GetTableOrder(this.tableId).subscribe({
-      next:r => this.ordini = r,
-      error:
-    })*/
+  getTableOrder(){
+    this.service.GetTableOrder(this.tableId).subscribe({
+      next: r => this.ordini = r,
+      error: e => alert("Error fetching orders")
+    })
   }
-
+  deleteOrder(orderId: number) {
+    this.service.DeleteTableOrderById(this.tableId, orderId).subscribe({
+      next: () => {
+        //togli l'ordine dalla lista egli ordini e dalla tabella
+        this.ordini = this.ordini.filter(o => o.orderId !== orderId);
+        //document.getElementById(`order-${orderId}`)?.remove();
+      },
+      error: e => alert("Error deleting order")
+    });
+  }
 }

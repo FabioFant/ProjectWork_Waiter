@@ -5,4 +5,5 @@ export default interface Product {
     price:number;
     image:string;
     category:string;
+    qty:number | null;
 }

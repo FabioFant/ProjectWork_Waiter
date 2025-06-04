@@ -1,5 +1,24 @@
-<div style="width: 15px;">
-    <i class="bi bi-plus-square-fill text-success"></i>
-    <i class="bi bi-dash-square-fill text-danger"></i>
-</div>
 
+   
+<ng-container *ngFor="let category of categories">
+    <div>
+        <h5>{{category.name}}</h5>
+        <ng-container *ngFor="let product of productsForCategory[category.id]">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>{{product.name}}</td>
+                        <td>{{product.price}}</td>
+                        <td>
+                            <span> 
+                                <i class="bi bi-dash-square-fill text-danger"></i>
+                                <label [(ngModel)]=""></label>
+                                <i class="bi bi-plus-square-fill text-success"></i>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+    </div>
+</ng-container>
