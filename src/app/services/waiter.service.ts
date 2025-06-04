@@ -46,11 +46,13 @@ export class WaiterService {
         occupants: res.occupants,
         totalPrice: res.totalPrice,
         orders: res.orders.map((order: any) => ({
-          id: order.id,
-          productId: order.productId,
-          name: order.name,
-          qty: order.qty,
-          price: order.price,
+          orderId: order.id,
+          product: {
+            id: order.productId,
+            name: order.name,
+            price: order.price,
+            qty: order.qty
+          },
           orderDate: order.orderDate,
           completionDate: order.completionDate
         }))
@@ -66,11 +68,13 @@ export class WaiterService {
         occupants: res.occupants,
         totalPrice: res.totalPrice,
         orders: res.orders.map((order: any) => ({
-          id: order.id,
-          productId: order.productId,
-          name: order.name,
-          qty: order.qty,
-          price: order.price,
+          orderId: order.id,
+          product: {
+            id: order.productId,
+            name: order.name,
+            price: order.price,
+            qty: order.qty
+          },
           orderDate: order.orderDate,
           completionDate: order.completionDate
         }))

@@ -17,14 +17,11 @@
                 <tr *ngFor="let ordine of ordini" id="order-{{ordine.orderId}}">
                     <td>{{ordine.product.name}}</td>
                     <td>{{ordine.product.qty}}</td>
-                    <ng-component *ngIf="ordine.completionDate!=null">
-                        <td ><span class="text-green">Prepared</span></td>
-                        <td>-</td>
-                    </ng-component>
-                    <ng-component *ngIf="ordine.completionDate==null">
-                        <td ><span class="text-red">To be prepared</span></td>
-                        <i (click)="deleteOrder(ordine.orderId)" class="bi bi-trash3-fill text-danger"></i>
-                    </ng-component>
+
+                    <td *ngIf="ordine.completionDate!=null"><span class="text-green">Prepared</span></td>
+                    <td *ngIf="ordine.completionDate!=null">-</td>
+                    <td *ngIf="ordine.completionDate==null"><span class="text-red">To be prepared</span></td>
+                    <td *ngIf="ordine.completionDate==null"><i (click)="deleteOrder(ordine.orderId)" class="bi bi-trash3-fill text-danger"></i></td>
                 </tr>
             </tbody>
         </table>
