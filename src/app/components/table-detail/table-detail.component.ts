@@ -17,21 +17,26 @@ export class TableDetailComponent {
   occupants: number = 0;
   errorMsg: string = '';
   qrcode: boolean = false;
+  qrdata ="";
 
   constructor(private waiterService: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = Number(this.route.snapshot.paramMap.get('id'));
     this.waiterService.GetTableById(this.tableId).subscribe(table => this.occupied = table.occupied);
   }
 
-  checkOccupants() {
+  checkOccupants() : boolean {
+    let result = false;
     this.errorMsg = '';
     if (isNaN(Number(this.occupants)) || this.occupants < 1) {
       this.errorMsg = 'Please enter a valid number greater than 0';
     }
+    else  result = true;
+    return result;
   }
 
   showQrCode() {
     this.qrcode = true;
+    this.waiterService.GetTableById(this.tableId).subscribe(table => this.qrdata = table.tableKey);
   }
   showOrder() {
     this.router.navigate(['tables', this.tableId, 'order']);
