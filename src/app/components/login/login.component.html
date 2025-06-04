@@ -6,11 +6,11 @@
       </h1>
       <div class="mb-3">
         <label class="form-label fw-bold">Username</label>
-        <input [(ngModel)]="username" id="username" type="text" class="form-control">
+        <input [(ngModel)]="username" name="username" type="text" class="form-control">
       </div>
       <div class="mb-3">
         <label class="form-label fw-bold">Password</label>
-        <input [(ngModel)]="password" id="password" type="password" class="form-control">
+        <input [(ngModel)]="password" name="password" type="password" class="form-control">
       </div>
       <div class="mb-3 text-center text-danger" *ngIf="errorMessage != ''">
         {{errorMessage}}
