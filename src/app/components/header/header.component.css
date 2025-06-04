@@ -1,0 +1,8 @@
+#messaggio{
+    font-size: 1.3em;
+    font-weight: bold;
+    color: black;
+}
+:text-secondary{
+    color: black !important;
+}

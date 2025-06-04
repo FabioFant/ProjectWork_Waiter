@@ -2,13 +2,13 @@
     <label for="occupants" class="form-label">Occupants</label>
     <input [(ngModel)]="occupants" id="occupants" type="number" class="form-control" min="1"(input)="checkOccupants()" >
     <div *ngIf="occupants<1" style="color:red; margin-top:4px;">{{ errorMsg }}</div>
-    <button class="operation" (click)="openTable()" [disabled]="!checkOccupants()">Open Table</button>
+    <button class="btn btn-primary shadow" (click)="openTable()" [disabled]="!checkOccupants()">Open Table</button>
 </div>
 <div *ngIf="occupied&&!qrcode"  class="operations">
-    <button class="operation" (click)="showBill()">Bill</button>
-    <button class="operation" (click)="showOrder()">Order</button>
-    <button class="operation" (click)="showQrCode()">Qr Code</button>
-    <button class="operation" (click)="closeTable()">Close Table</button>
+    <button class="btn btn-primary shadow" (click)="showBill()">Bill</button>
+    <button class="btn btn-primary shadow" (click)="showOrder()">Order</button>
+    <button class="btn btn-primary shadow" (click)="showQrCode()">Qr Code</button>
+    <button class="btn btn-primary shadow" (click)="closeTable()">Close Table</button>
 </div>
 <div *ngIf="qrcode">
     <div class="qrcodeImage">
