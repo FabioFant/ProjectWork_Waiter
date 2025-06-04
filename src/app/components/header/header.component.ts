@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -11,38 +11,48 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent {
 
-  messaggio:string;
+  messaggio="Tables";
+  casa=true;
   id?:number;
-  constructor (private route:ActivatedRoute, private router:Router, private authService:AuthService)
+  constructor (private router:Router, private authService:AuthService)
   {
-    this.messaggio=" ";
-    let urlSeparato=window.location.href.split('/');
-    let indice=-1;
-    for(let i=0;i<urlSeparato.length;i++)
-    {
-      if(urlSeparato[i]=='tables')
-      {
-        indice=i;
-        break;
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.casa=true;
+        this.messaggio="Tables";
+        let url=event.url;
+        //console.log('URL aggiornato:', url);
+        let urlSeparato=url.split('/');
+        let indice=-1;
+        for(let i=0;i<urlSeparato.length;i++)
+        {
+          if(urlSeparato[i]=="tables")
+          {
+            indice=i;
+            break;
+          }
+        }
+        if(indice!=-1)
+        {
+          this.messaggio="Table "+urlSeparato[indice+1];
+          if(indice+1!=urlSeparato.length-1)
+          {
+            this.messaggio+=" - "+urlSeparato[indice+2];
+            this.casa=false;
+            this.id=parseInt(urlSeparato[indice+1]);
+          }
+        }
       }
-    }
-    if(indice==-1)
-    {
-      this.messaggio="Tables";
-    }
-    else
-    {
-      this.messaggio="Table "+urlSeparato[indice+1];
-      if((indice+1)<urlSeparato.length-1)
-      {
-        this.messaggio+=" - "+urlSeparato[indice+2];
-      }
-    }
-    console.log(window.location.href);
+    });
   }
 
   Logout()
   {
     this.authService.logout().subscribe( r => this.router.navigate(['login']));
+  }
+
+  Indietro()
+  {
+    this.router.navigate([`/tables/${this.id}`]);
   }
 }

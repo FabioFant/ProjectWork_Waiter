@@ -12,9 +12,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './bill.component.css'
 })
 export class BillComponent {
-  ordini?:Order[]=[];
+  ordini:Order[]=[];
+  totale=0;
   constructor(private route:ActivatedRoute, private waiterService:WaiterService)
   {
-    waiterService.GetTableBill(route.snapshot.params['id']).subscribe(r => this.ordini=r?.orders);
+    waiterService.GetTableBill(route.snapshot.params['id']).subscribe(r => {
+      this.ordini=r.orders;
+      this.totale=r.totalPrice;
+    });
   }
 }
