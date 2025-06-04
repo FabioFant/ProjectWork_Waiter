@@ -1,11 +1,13 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm px-3">
   <div class="container-fluid d-flex justify-content-between align-items-center">
-    <a class="text-black fs-4 d-flex align-items-center" *ngIf="casa==true" routerLink="" title="Torna alla home">
-      <i class="bi bi-house-door-fill me-2"></i>
-    </a>
-    <a class="text-black fs-4 d-flex align-items-center" *ngIf="casa==false" (click)="Indietro()" title="Torna indietro">
-      <i class="bi bi-arrow-left-circle-fill"></i>
-    </a>
+    <div class="d-flex">
+      <a class="text-black fs-4 d-flex align-items-center" *ngIf="casa==true" routerLink="" title="Torna alla home">
+        <i class="bi bi-house-door-fill me-2"></i>
+      </a>
+      <a class="text-black fs-4 d-flex align-items-center" *ngIf="casa==false" (click)="Indietro()" title="Torna indietro">
+        <i class="bi bi-arrow-left-circle-fill"></i>
+      </a>
+    </div>
     <span class="text-center text-secondary fs-5 flex-grow-1">{{messaggio}}</span>
     <button class="btn btn-outline-danger btn-sm px-3" (click)="Logout()">Logout</button>
   </div>
