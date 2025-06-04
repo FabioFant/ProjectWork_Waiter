@@ -1,15 +1,22 @@
-<form class="container-fluid d-flex flex-column justify-content-center align-items-center vh-100">
-  <div class="mb-3">
-    <label class="form-label">Username</label>
-    <input [(ngModel)]="username" name="username" type="text" class="form-control">
+<form class="container-fluid d-flex flex-column justify-content-center align-items-center vh-100 bg-primary">
+  <div class="card">
+    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+      <h1 class="card-title text-center">
+        Login
+      </h1>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input [(ngModel)]="username" name="username" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input [(ngModel)]="password" name="password" type="password" class="form-control">
+      </div>
+      <div class="mb-3 text-center text-danger" *ngIf="errorMessage != ''">
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary " (click)="login()">Submit</button>
+    </div>
   </div>
-  <div class="mb-3">
-    <label class="form-label">Password</label>
-    <input [(ngModel)]="password" name="password" type="password" class="form-control">
-  </div>
-  <div class="mb-3 text-center text-danger" *ngIf="errorMessage != ''">
-    {{errorMessage}}
-</div>
-  <button type="button" class="btn btn-outline-primary" (click)="login()">Login</button>
 </form>
     
