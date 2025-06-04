@@ -5,7 +5,7 @@ import { HttpClient,HttpHeaders} from '@angular/common/http';
 import Table from '../models/Table';
 import Category from '../models/Category';
 import Product from '../models/Product';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,12 +42,26 @@ export class WaiterService {
     return this.http.put(`${enviroment.apiUrl}/waiter/tables/${tableId}`, body);
   }
 
-  GetTableBill(tableId: number) : Observable<Order[]> {
-    return this.http.get<Order[]>(`${enviroment.apiUrl}/waiter/tables/${tableId}/bill`);
+  GetTableBill(tableId: number) : Observable<any> {
+    return this.http.get<any>(`${enviroment.apiUrl}/waiter/tables/${tableId}/bill`).pipe(
+      map(res => ({
+        tableId:res.tableId,
+        occupants: res.occupants,
+        totalPrice: res.totalPrice,
+        orders: res.orders
+      }))
+    )
   }
 
-  GetTableOrder(tableId: number) : Observable<Order[]> {
-    return this.http.get<Order[]>(`${enviroment.apiUrl}/waiter/tables/${tableId}/order`);
+  GetTableOrder(tableId: number) : Observable<any> {
+    return this.http.get<any>(`${enviroment.apiUrl}/waiter/tables/${tableId}/order`).pipe(
+      map(res => ({
+        tableId:res.tableId,
+        occupants: res.occupants,
+        totalPrice: res.totalPrice,
+        orders: res.orders
+      }))
+    )
   }
 
   AddTableOrder(tableId: number, order: Order[]) {
