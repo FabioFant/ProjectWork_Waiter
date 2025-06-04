@@ -64,9 +64,9 @@ export class WaiterService {
     )
   }
 
-  AddTableOrder(tableId: number, order: Order[]) {
-    const body = order.map(item => ({
-      productId: item.product.id,
+  AddTableOrder(tableId: number, product: Product[]) {
+    const body = product.map(item => ({
+      productId: item.id,
       qty: item.qty,
     }));
 
