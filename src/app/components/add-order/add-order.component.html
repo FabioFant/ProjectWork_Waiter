@@ -11,9 +11,9 @@
                         <td>{{product.price}}</td>
                         <td>
                             <span> 
-                                <i class="bi bi-dash-square-fill text-danger"></i>
-                                <label [(ngModel)]="product.qty"></label>
-                                <i class="bi bi-plus-square-fill text-success"></i>
+                                <i class="bi bi-dash-square-fill text-danger" (click)="changeQuantity(product, -1)"></i>
+                                <label>{{product.qty}}</label>
+                                <i class="bi bi-plus-square-fill text-success" (click)="changeQuantity(product, 1)"></i>
                             </span>
                         </td>
                     </tr>
