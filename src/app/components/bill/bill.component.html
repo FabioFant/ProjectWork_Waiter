@@ -2,23 +2,23 @@
     <table class="table table-striped table-bordered " id="bill">
         <thead class="table-dark">
             <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Single Price</th>
-                <th>Total Price</th>
+                <th class="fs-6">Product</th>
+                <th class="fs-6">Quantity</th>
+                <th class="fs-6">Single Price</th>
+                <th class="fs-6">Total Price</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let order of ordini">
-                <td>{{order.product.name}}</td>
-                <td>{{order.product.qty}}</td>
-                <td class="text-end">{{order.product.price}}€</td>
-                <td class="text-end">{{order.total}}€</td>
+                <td class="fs-6">{{order.product.name}}</td>
+                <td class="fs-6">{{order.product.qty}}</td>
+                <td class="fs-6 text-end">{{order.product.price}}€</td>
+                <td class="fs-6 text-end">{{order.total}}€</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div class="fixed-bottom d-flex justify-content-end p-3 bg-light border-top shadow">
-    <span class="fs-4 fw-bold">Total: {{bill}}€</span>
+    <span class="fw-bold text-wrap text-sm-start text-md-center fs-5 fs-md-4">Total: {{bill}}€</span>
 </div>
