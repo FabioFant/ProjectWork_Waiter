@@ -29,7 +29,6 @@ export class OrderComponent {
       next: () => {
         //togli l'ordine dalla lista egli ordini e dalla tabella
         this.ordini = this.ordini.filter(o => o.orderId != orderId);
-        //document.getElementById(`order-${orderId}`)?.remove();
       },
       error: e => alert("Error deleting order")
     });
