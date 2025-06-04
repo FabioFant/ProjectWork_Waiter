@@ -1,8 +1,12 @@
-
-<div class="operations">
+<div *ngIf="!occupied" class="operations">
+    <label class="form-label">Occupants</label>
+    <input [(ngModel)]="occupants" name="occupants" type="number" class="form-control" min="1"(input)="checkOccupants()" >
+    <div *ngIf="occupants<1" style="color:red; margin-top:4px;">{{ errorMsg }}</div>
+    <button class="operation" (click)="openTable()">Open Table</button>
+</div>
+<div *ngIf="occupied"  class="operations">
     <button class="operation" (click)="showBill()">Bill</button>
     <button class="operation" (click)="showOrder()">Order</button>
     <button class="operation" (click)="showQrCode()">Qr Code</button>
     <button class="operation" (click)="closeTable()">Close Table</button>
 </div>
-<app-qr-code></app-qr-code>

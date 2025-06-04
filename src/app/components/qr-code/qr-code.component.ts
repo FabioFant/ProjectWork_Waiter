@@ -13,4 +13,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 })
 export class QrCodeComponent {
   qrData = 'https://storage.googleapis.com/pw2025/';
+  constructor(private waiterService: WaiterService){}
+
+ //
 }

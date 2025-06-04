@@ -3,3 +3,8 @@ qrcode, qrcode img, qrcode svg {
   margin: 2rem auto !important;
   background: white !important;
 }
+.qrcodeImage {
+  display: flex;
+  justify-content: center;
+  align-items: center 
+}
