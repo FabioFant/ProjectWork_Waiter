@@ -8,11 +8,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let prodotto of prodotti">
-            <td>{{prodotto.name}}</td>
-            <td>{{prodotto.qty}}</td>
-            <td>{{prodotto.price}}</td>
-            <td>{{prodotto.price * prodotto.qty}}</td>
+        <tr *ngFor="let order of ordini">
+            <td>{{order.product.name}}</td>
+            <td>{{order.product.qty}}</td>
+            <td>{{order.product.price}}</td>
+            <td>{{order.product.price * order.product.qty}}</td>
         </tr>
     </tbody>
 </table>
