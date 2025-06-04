@@ -13,7 +13,7 @@
 
 <div class="container-fluid p-3 d-flex flex-wrap">
     <div *ngFor="let table of tables" [routerLink]="['/tables', table.id]" [ngClass]="!table.occupied ? 'bg-primary' : 'bg-secondary'" class="box centered-flex flex-column text-white">
-        <div class="fs-1">{{table.id}}</div>
+        <div class="fs-2 fw-bold">{{table.id}}</div>
         <div class="bg-dark bg-opacity-25 text-white rounded-pill text-center" [ngClass]=" table.occupied ? 'w-50' : 'w-75' ">
             <i class="bi" [ngClass]=" table.occupied ? 'bi-person-fill' : 'bi-check-lg' "></i>
             {{ table.occupied ? table.occupants : 'Available' }}
