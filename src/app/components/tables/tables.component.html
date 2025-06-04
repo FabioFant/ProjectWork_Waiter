@@ -1,1 +1,6 @@
-<p>tables works!</p>
+<div class="container-fluid p-3 d-flex flex-wrap">
+    <div *ngFor="let table of tables" [routerLink]="['/tables', table.id]" [ngClass]="!table.occupied ? 'bg-primary' : 'bg-secondary'" class="box d-flex flex-column justify-content-center align-items-center">
+        <div class="fs-1">{{table.id}}</div>
+        <div *ngIf="table.occupied"><i class="bi bi-person-fill"></i> {{table.occupants}}</div>
+    </div>
+</div>

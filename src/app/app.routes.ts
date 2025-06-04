@@ -8,7 +8,6 @@ import { OrderComponent } from './components/order/order.component';
 import { AddOrderComponent } from './components/add-order/add-order.component';
 import { AuthGuard } from './guards/auth.guard';
 
-// TODO : Add auth guards
 export const routes: Routes = [
     { path: '', component: TablesComponent, canActivate:[AuthGuard]},
     { path: 'login', component: LoginComponent,  },
