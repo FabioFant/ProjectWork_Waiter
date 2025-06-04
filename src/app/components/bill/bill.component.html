@@ -12,13 +12,13 @@
             <tr *ngFor="let order of ordini">
                 <td>{{order.product.name}}</td>
                 <td>{{order.product.qty}}</td>
-                <td>{{order.product.price}}</td>
-                <td>{{order.total}}</td>
+                <td class="text-end">{{order.product.price}}€</td>
+                <td class="text-end">{{order.total}}€</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div class="fixed-bottom d-flex justify-content-end p-3 bg-light border-top shadow">
-    <span class="fs-4 fw-bold">Total: {{bill}}</span>
+    <span class="fs-4 fw-bold">Total: {{bill}}€</span>
 </div>
