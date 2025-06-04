@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Order from '../models/Order';
 import { enviroment } from '../../enviroments/enviroment';
-import { HttpClient,HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import Table from '../models/Table';
 import Category from '../models/Category';
 import Product from '../models/Product';
@@ -12,64 +12,77 @@ import { map, Observable } from 'rxjs';
 })
 export class WaiterService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  GetAllTables() :Observable<Table[]> {
-    
+  GetAllTables(): Observable<Table[]> {
     return this.http.get<Table[]>(`${enviroment.apiUrl}/waiter/tables`);
   }
 
-  GetTableById(tableId: number) : Observable<Table> {
+  GetTableById(tableId: number): Observable<Table> {
     return this.http.get<Table>(`${enviroment.apiUrl}/waiter/tables/${tableId}`);
   }
-  
-  OpenTable(tableId: number, occupants: number) {
-    const body={
-      "id": tableId,
-      "occupied": true,
-      "occupants": occupants
-    }
 
+  OpenTable(tableId: number, occupants: number) {
+    const body = {
+      id: tableId,
+      occupied: true,
+      occupants: occupants
+    };
     return this.http.put(`${enviroment.apiUrl}/waiter/tables/${tableId}`, body);
   }
 
   CloseTable(tableId: number) {
     const body = {
-      "id": tableId,
-      "occupied": false,
-    }
-
+      id: tableId,
+      occupied: false
+    };
     return this.http.put(`${enviroment.apiUrl}/waiter/tables/${tableId}`, body);
   }
 
-  GetTableBill(tableId: number) : Observable<any> {
+  GetTableBill(tableId: number): Observable<any> {
     return this.http.get<any>(`${enviroment.apiUrl}/waiter/tables/${tableId}/bill`).pipe(
       map(res => ({
-        tableId:res.tableId,
+        tableId: res.tableId,
         occupants: res.occupants,
         totalPrice: res.totalPrice,
-        orders: res.orders
+        orders: res.orders.map((order: any) => ({
+          id: order.id,
+          productId: order.productId,
+          name: order.name,
+          qty: order.qty,
+          price: order.price,
+          orderDate: order.orderDate,
+          completionDate: order.completionDate
+        }))
       }))
-    )
+    );
   }
+  
 
-  GetTableOrder(tableId: number) : Observable<any> {
+  GetTableOrder(tableId: number): Observable<any> {
     return this.http.get<any>(`${enviroment.apiUrl}/waiter/tables/${tableId}/order`).pipe(
       map(res => ({
-        tableId:res.tableId,
+        tableId: res.tableId,
         occupants: res.occupants,
         totalPrice: res.totalPrice,
-        orders: res.orders
+        orders: res.orders.map((order: any) => ({
+          id: order.id,
+          productId: order.productId,
+          name: order.name,
+          qty: order.qty,
+          price: order.price,
+          orderDate: order.orderDate,
+          completionDate: order.completionDate
+        }))
       }))
-    )
+    );
   }
 
   AddTableOrder(tableId: number, product: Product[]) {
     const body = product.map(item => ({
       productId: item.id,
-      qty: item.qty,
+      qty: item.qty
     }));
-
     return this.http.post(`${enviroment.apiUrl}/waiter/tables/${tableId}/order`, body);
   }
 

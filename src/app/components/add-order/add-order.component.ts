@@ -34,4 +34,10 @@ export class AddOrderComponent {
       error: e => alert("Error fetching categories")
     });
   }
+
+  changeQuantity(product: Product, change: number) {
+    if (product.qty + change >= 0) {
+      product.qty += change;
+    }
+  }
 }
