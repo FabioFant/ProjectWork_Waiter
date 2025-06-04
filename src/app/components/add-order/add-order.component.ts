@@ -23,6 +23,9 @@ export class AddOrderComponent {
           this.service.GetProductsByCategoryId(category.id).subscribe({
             next: products => {
               this.productsForCategory[category.id] = products;
+              this.productsForCategory[category.id].forEach(product => {
+                product.qty = 0; // Initialize quantity for each product
+              });
             },
             error: e => alert("Error fetching products for category")
           });

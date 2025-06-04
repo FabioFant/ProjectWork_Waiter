@@ -15,8 +15,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let ordine of ordini" id="order-{{ordine.orderId}}">
-                    <td>{{ordine.product}}</td>
-                    <td>{{ordine.qty}}</td>
+                    <td>{{ordine.product.name}}</td>
+                    <td>{{ordine.product.qty}}</td>
                     <ng-component *ngIf="ordine.completionDate!=null">
                         <td ><span class="text-green">Prepared</span></td>
                         <td>-</td>
