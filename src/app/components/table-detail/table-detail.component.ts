@@ -43,7 +43,8 @@ export class TableDetailComponent {
     this.showQrCode();
   }
   closeTable() {
-    this.waiterService.CloseTable(this.tableId).subscribe();
-    this.router.navigate(['']);
+    this.waiterService.CloseTable(this.tableId).subscribe(() => {
+      this.router.navigate(['']);
+    });
   }
 }
