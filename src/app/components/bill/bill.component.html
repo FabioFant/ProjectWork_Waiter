@@ -1,1 +1,18 @@
-<p>bill works!</p>
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Single Price</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let prodotto of prodotti">
+            <td>{{prodotto.name}}</td>
+            <td>{{prodotto.qty}}</td>
+            <td>{{prodotto.price}}</td>
+            <td>{{prodotto.price * prodotto.qty}}</td>
+        </tr>
+    </tbody>
+</table>
