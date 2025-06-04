@@ -12,23 +12,7 @@ import { map, Observable } from 'rxjs';
 })
 export class WaiterService {
 
-  private typeSpec: {
-    tableId: number;
-    occupants: number;
-    totalPrice: number;
-    orders: Order[];
-  } | undefined;
-
-  private spec: typeof this.typeSpec;
-
-  constructor(private http: HttpClient) {
-    this.spec = {
-      tableId: 0,
-      occupants: 0,
-      totalPrice: 0,
-      orders: []
-    };
-  }
+  constructor(private http: HttpClient) {}
 
   GetAllTables(): Observable<Table[]> {
     return this.http.get<Table[]>(`${enviroment.apiUrl}/waiter/tables`);
@@ -55,24 +39,41 @@ export class WaiterService {
     return this.http.put(`${enviroment.apiUrl}/waiter/tables/${tableId}`, body);
   }
 
-  GetTableBill(tableId: number): Observable<typeof this.typeSpec> {
+  GetTableBill(tableId: number): Observable<any> {
     return this.http.get<any>(`${enviroment.apiUrl}/waiter/tables/${tableId}/bill`).pipe(
       map(res => ({
         tableId: res.tableId,
         occupants: res.occupants,
         totalPrice: res.totalPrice,
-        orders: res.orders
+        orders: res.orders.map((order: any) => ({
+          id: order.id,
+          productId: order.productId,
+          name: order.name,
+          qty: order.qty,
+          price: order.price,
+          orderDate: order.orderDate,
+          completionDate: order.completionDate
+        }))
       }))
     );
   }
+  
 
-  GetTableOrder(tableId: number): Observable<typeof this.typeSpec> {
+  GetTableOrder(tableId: number): Observable<any> {
     return this.http.get<any>(`${enviroment.apiUrl}/waiter/tables/${tableId}/order`).pipe(
       map(res => ({
         tableId: res.tableId,
         occupants: res.occupants,
         totalPrice: res.totalPrice,
-        orders: res.orders
+        orders: res.orders.map((order: any) => ({
+          id: order.id,
+          productId: order.productId,
+          name: order.name,
+          qty: order.qty,
+          price: order.price,
+          orderDate: order.orderDate,
+          completionDate: order.completionDate
+        }))
       }))
     );
   }
