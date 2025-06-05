@@ -16,25 +16,32 @@
     <button class="btn btn-primary shadow" (click)="closeTable()">Close
       Table</button>
   </div>
-  <div *ngIf="qrcode">
-    <div class="qrcodeImage">
-      <qrcode
-        [qrdata]="qrdata"
-        [allowEmptyString]="true"
-        [ariaLabel]="'QR Code image with the following content...'"
-        [cssClass]="'center'"
-        [colorDark]="'#00000fff'"
-        [colorLight]="'#ffffffff'"
-        [elementType]="'img'"
-        [errorCorrectionLevel]="'H'"
-        [imageHeight]="75"
-        [imageWidth]="75"
-        [margin]="4"
-        [scale]="1"
-        [title]="'Table Key'"
-        [width]="400"></qrcode>
+<div *ngIf="qrcode">
+  <div *ngIf="loadingQr" class="qrcodeImage">
+    <!-- Loader -->
+    <div class="loading">
+      <div class="loader">
+        <div class="panWrapper">
+          <div class="pan">
+            <div class="food"></div>
+            <div class="panBase"></div>
+            <div class="panHandle"></div>
+          </div>
+          <div class="panShadow"></div>
+        </div>
+      </div>
     </div>
   </div>
+  <div *ngIf="!loadingQr && qrdata" class="qrcodeImage">
+    <qrcode
+      [qrdata]="qrdata"
+      [margin]="4"
+      [scale]="1"
+      [title]="'Table Key'"
+      [width]="400">
+    </qrcode>
+  </div>
+</div>
 </div>
 <div class="d-flex justify-content-center align-items-center" >
   <div class="loading" *ngIf="loading">

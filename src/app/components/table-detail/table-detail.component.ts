@@ -38,10 +38,17 @@ export class TableDetailComponent {
     return result;
   }
 
-  showQrCode() {
-    this.qrcode = true;
-    this.waiterService.GetTableById(this.tableId).subscribe(table => this.qrdata = "https://customer-619967684868.us-central1.run.app/" + table.tableKey);
-  }
+ loadingQr = false;
+
+showQrCode() {
+  this.qrcode = true;
+  this.qrdata = ""; // Clear previous QR data
+  this.loadingQr = true;
+  this.waiterService.GetTableById(this.tableId).subscribe(table => {
+    this.qrdata = "https://customer-619967684868.us-central1.run.app/" + table.tableKey;
+    this.loadingQr = false;
+  });
+}
   showOrder() {
     this.router.navigate(['tables', this.tableId, 'order']);
   }
@@ -53,8 +60,15 @@ export class TableDetailComponent {
     this.showQrCode();
   }
   closeTable() {
-    this.waiterService.CloseTable(this.tableId).subscribe(() => {
+  this.loading = true; // Show loader
+  this.waiterService.CloseTable(this.tableId).subscribe({
+    next: () => {
       this.router.navigate(['']);
-    });
-  }
+    },
+    error: () => {
+      this.loading = false; // Hide loader if there's an error
+      alert('Error closing table');
+    }
+  });
+}
 }
