@@ -1,0 +1,7 @@
+.accordion-button::after {
+     /* Re-imposta l'immagine di background predefinita */
+    filter: brightness(0) invert(1) !important; /* Forza il colore bianco */
+}
+.accordion-button:not(.collapsed)::after {
+    transform: var(--bs-accordion-btn-icon-transform) rotate(-180deg) !important; /* Applica la rotazione inversa e forza */
+}

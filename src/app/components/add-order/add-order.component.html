@@ -13,50 +13,48 @@
     </div>
 </div>
 <div *ngIf="!loading">
-    <div class="container-fluid my-4">
-        <ng-container *ngFor="let category of categories">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">{{category.name}}</h4>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <tbody>
-                                <tr
-                                    *ngFor="let product of productsForCategory[category.id]">
-                                    <td
-                                        class="align-middle fw-bold">{{product.name}}</td>
-                                    <td
-                                        class="align-middle text-end text-nowrap">{{product.price}}€</td>
-                                    <td class="align-middle text-center"
-                                        style="width: 120px;">
-                                        <div
-                                            class="d-flex justify-content-center align-items-center">
-                                            <i
-                                                class="bi bi-dash-square-fill text-danger fs-4 me-2"
-                                                (click)="changeQuantity(product, -1)"></i>
-                                            <label
-                                                class="mb-0 me-2 fs-5">{{product.qty}}</label>
-                                            <i
-                                                class="bi bi-plus-square-fill text-success fs-4"
-                                                (click)="changeQuantity(product, 1)"></i>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+<div class="container-fluid my-4">
+    <ng-container *ngFor="let category of categories; let i = index">
+        <div class="card mb-4 shadow-sm"> 
+           <div class="accordion" id="accordionPadre-{{i}}"> 
+                <div class="accordion-item">
+                    <h4 class="mb-0">
+                        <button class="accordion-button bg-primary text-white " type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#accordionItem' + category.id" aria-expanded="false" >
+                            {{category.name}}
+                        </button>
+                    </h4>
+                    <div [id]="'accordionItem' + category.id" class="accordion-collapse collapse" [attr.data-bs-parent]="'#accordionPadre-' + i"> 
+                        <div class="accordion-body card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <tbody>
+                                        <tr *ngFor="let product of productsForCategory[category.id]">
+                                            <td class="align-middle fw-bold">{{product.name}}</td>
+                                            <td class="align-middle text-end text-nowrap">{{product.price}}€</td>
+                                            <td class="align-middle text-center" style="width: 120px;">
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <i class="bi bi-dash-square-fill text-danger fs-4 me-2" (click)="changeQuantity(product, -1)"></i>
+                                                    <label class="mb-0 me-2 fs-5">{{product.qty}}</label>
+                                                    <i class="bi bi-plus-square-fill text-success fs-4" (click)="changeQuantity(product, 1)"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>             
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="py-5"></div>
-    <button (click)="inviaOrdine()"
-        class="btn btn-success btn-lg fixed-bottom w-100 py-3 shadow-lg rounded-0 d-flex justify-content-center align-items-center">
-        <i class="bi bi-check-circle-fill me-2 fs-4"></i> Confirm new order
-    </button>
-    <div class="d-flex justify-content-center align-items-center">
+           </div>
+        </div>
+    </ng-container>
+</div>
+
+<div class="py-5"></div>
+<button (click)="inviaOrdine()" class="btn btn-success btn-lg fixed-bottom w-100 py-3 shadow-lg rounded-0 d-flex justify-content-center align-items-center">
+    <i class="bi bi-check-circle-fill me-2 fs-4"></i> Confirm new order
+</button>
+<div class="d-flex justify-content-center align-items-center">
         <div class="loading" *ngIf="loading">
             <!-- From Uiverse.io by vinodjangid07 -->
             <div class="loader">
