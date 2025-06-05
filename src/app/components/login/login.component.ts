@@ -21,6 +21,7 @@ export class LoginComponent {
     if( authService.isLogged() ) router.navigate(['/'])
   }
 
+  // login
   login()
   {
     this.errorMessage = ""
