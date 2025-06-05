@@ -15,6 +15,7 @@ export class LoginComponent {
   password = ""
   errorMessage = ""
 
+  // costruttore
   constructor(private authService: AuthService, private router: Router) 
   {
     if( authService.isLogged() ) router.navigate(['/'])
