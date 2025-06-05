@@ -36,7 +36,7 @@ export class TableDetailComponent {
 
   showQrCode() {
     this.qrcode = true;
-    this.waiterService.GetTableById(this.tableId).subscribe(table => this.qrdata = table.tableKey);
+    this.waiterService.GetTableById(this.tableId).subscribe(table => this.qrdata = "https://customer-619967684868.us-central1.run.app/"+table.tableKey);
   }
   showOrder() {
     this.router.navigate(['tables', this.tableId, 'order']);
