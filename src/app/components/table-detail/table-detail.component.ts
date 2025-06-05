@@ -7,7 +7,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-table-detail',
-  imports: [FormsModule, NgIf,QRCodeComponent],
+  imports: [FormsModule, NgIf, QRCodeComponent],
   templateUrl: './table-detail.component.html',
   styleUrl: './table-detail.component.css'
 })
@@ -17,26 +17,30 @@ export class TableDetailComponent {
   occupants: number = 0;
   errorMsg: string = '';
   qrcode: boolean = false;
-  qrdata ="";
+  qrdata = "";
+  loading = true;
 
   constructor(private waiterService: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = Number(this.route.snapshot.paramMap.get('id'));
-    this.waiterService.GetTableById(this.tableId).subscribe(table => this.occupied = table.occupied);
+    this.waiterService.GetTableById(this.tableId).subscribe(table => {
+      this.occupied = table.occupied;
+      this.loading = false;
+    });
   }
 
-  checkOccupants() : boolean {
+  checkOccupants(): boolean {
     let result = false;
     this.errorMsg = '';
     if (isNaN(Number(this.occupants)) || this.occupants < 1) {
       this.errorMsg = 'Please enter a valid number greater than 0';
     }
-    else  result = true;
+    else result = true;
     return result;
   }
 
   showQrCode() {
     this.qrcode = true;
-    this.waiterService.GetTableById(this.tableId).subscribe(table => this.qrdata = "https://customer-619967684868.us-central1.run.app/"+table.tableKey);
+    this.waiterService.GetTableById(this.tableId).subscribe(table => this.qrdata = "https://customer-619967684868.us-central1.run.app/" + table.tableKey);
   }
   showOrder() {
     this.router.navigate(['tables', this.tableId, 'order']);
