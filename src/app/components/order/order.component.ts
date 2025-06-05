@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class OrderComponent {
   tableId:number;
   ordini:Order[] = [];
+  loading = true;
 
   constructor(private route:ActivatedRoute, private service:WaiterService){
     this.tableId = this.route.snapshot.params["id"]
@@ -20,8 +21,14 @@ export class OrderComponent {
   }
   getTableOrder(){
     this.service.GetTableOrder(this.tableId).subscribe({
-      next: r => this.ordini = r.orders,
-      error: e => alert("Error fetching orders")
+      next: r => {
+        this.ordini = r.orders;
+        this.loading = false
+      },
+      error: e => {
+        alert("Error fetching orders");
+        this.loading = false;
+      }
     })
   }
   deleteOrder(orderId: number) {

@@ -17,6 +17,7 @@ export class AddOrderComponent {
   categories:Category[] = [];
   productsForCategory: Product[][] = [[]];
   tableId: number;
+  loading = true;
 
   constructor(private service:WaiterService, private route:ActivatedRoute, private router:Router) {
     this.tableId = this.route.snapshot.params["id"]
@@ -24,6 +25,11 @@ export class AddOrderComponent {
     this.service.GetAllCategories().subscribe({
       next: r => {
         this.categories = r;
+        if (this.categories.length === 0) {
+          this.loading = false;
+          return;
+        }
+        let loadedCount = 0;
         this.categories.forEach(category => {
           this.service.GetProductsByCategoryId(category.id).subscribe({
             next: products => {
@@ -31,14 +37,28 @@ export class AddOrderComponent {
               this.productsForCategory[category.id].forEach(product => {
                 product.qty = this.readProductOnStorage(product);
               });
+              loadedCount++;
+              if (loadedCount === this.categories.length) {
+                this.loading = false;
+              }
             },
-            error: e => alert("Error fetching products for category")
+            error: e => {
+              alert("Error fetching products for category");
+              loadedCount++;
+              if (loadedCount === this.categories.length) {
+                this.loading = false;
+              }
+            }
           });
         });
       },
-      error: e => alert("Error fetching categories")
+      error: e => {
+        alert("Error fetching categories");
+        this.loading = false;
+      }
     });
   }
+
 
   readProductOnStorage(product:Product):number{
     const storedQty = localStorage.getItem(product.name);
