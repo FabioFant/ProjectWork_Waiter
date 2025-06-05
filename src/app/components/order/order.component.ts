@@ -40,7 +40,7 @@ export class OrderComponent {
       error: e => alert("Error deleting order")
     });
   }
-  
+
   deleteAllOrders() {
     this.service.DeleteAllTableOrders(this.tableId).subscribe({
       next: () => {
