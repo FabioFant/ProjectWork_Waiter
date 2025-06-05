@@ -40,4 +40,14 @@ export class OrderComponent {
       error: e => alert("Error deleting order")
     });
   }
+  
+  deleteAllOrders() {
+    this.service.DeleteAllTableOrders(this.tableId).subscribe({
+      next: () => {
+        //togli tutti gli ordini dalla lista e dalla tabella se non sono stati preparati
+        this.ordini = this.ordini.filter(o => o.completionDate != null);
+      },
+      error: e => alert("Error deleting all orders")
+    });
+  }
 }
