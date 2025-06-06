@@ -2,7 +2,7 @@
   <div *ngIf="!occupied&&!qrcode" class="operations">
     <label for="occupants" class="form-label">Occupants</label>
     <input [(ngModel)]="occupants" id="occupants" type="number"
-      class="form-control" min="1" (input)="checkOccupants()">
+      class="form-control" min="1" pattern="[0-9]*" (input)="checkOccupants()">
     <div *ngIf="occupants<1" style="color:red; margin-top:4px;">{{ errorMsg
       }}</div>
     <button class="btn btn-primary shadow" (click)="openTable()"

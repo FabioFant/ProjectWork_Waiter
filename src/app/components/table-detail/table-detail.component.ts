@@ -31,7 +31,7 @@ export class TableDetailComponent {
   checkOccupants(): boolean {
     let result = false;
     this.errorMsg = '';
-    if (isNaN(Number(this.occupants)) || this.occupants < 1) {
+    if (isNaN(Number(this.occupants)) || Number(this.occupants) < 1) {
       this.errorMsg = 'Please enter a valid number greater than 0';
     }
     else result = true;
