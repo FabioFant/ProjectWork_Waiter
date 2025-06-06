@@ -43,7 +43,7 @@
                         <span *ngIf="ordine.completionDate === null" class="badge bg-warning text-dark rounded-pill">To be prepared</span>
                     </td>
 
-                    <td class="delete-cell align-middle text-center">
+                    <td class=" align-middle text-center">
                         <ng-container *ngIf="ordine.completionDate === null">
                             <button (click)="deleteOrder(ordine.orderId)" class="btn bg-danger text-white ">
                                 <i class="bi bi-trash3-fill"></i>
