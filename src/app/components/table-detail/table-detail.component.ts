@@ -56,8 +56,16 @@ showQrCode() {
     this.router.navigate(['tables', this.tableId, 'bill']);
   }
   openTable() {
-    this.waiterService.OpenTable(this.tableId, this.occupants).subscribe();
-    this.showQrCode();
+    this.waiterService.OpenTable(this.tableId, this.occupants).subscribe({
+      next:() => {
+        this.loading = false;
+        this.showQrCode();
+      },
+      error: () => {
+        this.loading = false;
+        alert('Error opening table');
+      }
+    });
   }
   closeTable() {
   this.loading = true; // Show loader
