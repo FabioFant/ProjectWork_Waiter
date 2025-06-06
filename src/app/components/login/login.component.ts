@@ -27,7 +27,7 @@ export class LoginComponent {
     this.errorMessage = ""
     this.authService.login(this.username, this.password).subscribe({
       next: r => this.router.navigate(['/']),
-      error: e => this.errorMessage = 'Credenziali non valide. Riprova.'
+      error: e => this.errorMessage = 'Not valid credentials. Please try again.'
     })
   }
 }

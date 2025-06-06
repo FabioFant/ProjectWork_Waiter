@@ -1,8 +1,10 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { WaiterService } from '../../services/waiter.service';
 import Order from '../../models/Order';
 import { CommonModule } from '@angular/common';
+import { interval, Observable, Subscription, switchMap } from 'rxjs';
+import { enviroment } from '../../../enviroments/enviroment';
 
 @Component({
   selector: 'app-order',
@@ -10,20 +12,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './order.component.html',
   styleUrl: './order.component.css'
 })
-export class OrderComponent {
+export class OrderComponent implements OnInit, OnDestroy {
+  private polling!: Subscription;
+
   tableId: number;
   ordini: Order[] = [];
   loading = true;
 
   constructor(private route: ActivatedRoute, private service: WaiterService) {
     this.tableId = this.route.snapshot.params["id"]
-    this.getTableOrder();
-  }
-  getTableOrder() {
     this.service.GetTableOrder(this.tableId).subscribe({
       next: r => {
-        this.ordini = r.orders;
-        this.loading = false
+        this.updateData(r);
       },
       error: e => {
         alert("Error fetching orders");
@@ -31,6 +31,7 @@ export class OrderComponent {
       }
     })
   }
+
   deleteOrder(orderId: number) {
     this.service.DeleteTableOrderById(this.tableId, orderId).subscribe({
       next: () => {
@@ -54,5 +55,31 @@ export class OrderComponent {
         this.loading = false;
       }
     });
+  }
+
+  updateData(data: any)
+  {
+    this.ordini = data.orders;
+    this.loading = false
+  }
+
+  ngOnInit(): void 
+  {
+    this.polling = interval(enviroment.pollingInterval)
+      .pipe(
+        // New request while ignoring the previous one if it hasn't completed yet
+        switchMap(() => this.service.GetTableOrder(this.tableId))
+      )
+      .subscribe({
+        next: r => this.updateData(r),
+        error: err => console.error('Polling error:', err)
+      });
+  }
+
+  ngOnDestroy(): void 
+  {
+    if( this.polling ) {
+      this.polling.unsubscribe();
+    }
   }
 }
