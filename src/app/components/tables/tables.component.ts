@@ -23,8 +23,8 @@ export class TablesComponent implements OnInit, OnDestroy {
   constructor(private waiterService: WaiterService)
   {
     this.waiterService.GetAllTables().subscribe({
-      next: r => this.updateData(r),
-      error: err => console.error('Fetch error:', err)
+      next: r => {this.updateData(r); this.loading = false},
+      error: err => {console.error('Fetch error:', err); this.loading = false}
     });
   }
 

@@ -16,14 +16,14 @@ import Table from '../../models/Table';
 })
 export class BillComponent {
   private polling!: Subscription;
-
+  loading = true;
   ordini:Order[]=[];
   bill:number=0;
   constructor(private route:ActivatedRoute, private waiterService:WaiterService)
   {
     waiterService.GetTableBill(route.snapshot.params['id']).subscribe({
-      next: r => this.updateData(r),
-      error: err => console.error('Fetch error:', err)
+      next: r => {this.updateData(r); this.loading = false},
+      error: err => {console.error('Fetch error:', err); this.loading = false}
     });
   }
 
