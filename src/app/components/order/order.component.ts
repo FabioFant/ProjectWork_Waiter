@@ -47,7 +47,10 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.service.DeleteAllTableOrders(this.tableId).subscribe({
       next: () => {
         //togli tutti gli ordini dalla lista e dalla tabella se non sono stati preparati
-        this.ordini = this.ordini.filter(o => o.completionDate != null);
+          this.service.GetTableOrder(this.tableId).subscribe({
+            next: r => this.updateData(r),
+            error: err => console.error('Polling error:', err)
+          });
         this.loading = false;
       },
       error: e => {
