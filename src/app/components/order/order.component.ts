@@ -11,15 +11,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './order.component.css'
 })
 export class OrderComponent {
-  tableId:number;
-  ordini:Order[] = [];
+  tableId: number;
+  ordini: Order[] = [];
   loading = true;
 
-  constructor(private route:ActivatedRoute, private service:WaiterService){
+  constructor(private route: ActivatedRoute, private service: WaiterService) {
     this.tableId = this.route.snapshot.params["id"]
     this.getTableOrder();
   }
-  getTableOrder(){
+  getTableOrder() {
     this.service.GetTableOrder(this.tableId).subscribe({
       next: r => {
         this.ordini = r.orders;
@@ -40,14 +40,19 @@ export class OrderComponent {
       error: e => alert("Error deleting order")
     });
   }
-  
+
   deleteAllOrders() {
+    this.loading = true;
     this.service.DeleteAllTableOrders(this.tableId).subscribe({
       next: () => {
         //togli tutti gli ordini dalla lista e dalla tabella se non sono stati preparati
         this.ordini = this.ordini.filter(o => o.completionDate != null);
+        this.loading = false;
       },
-      error: e => alert("Error deleting all orders")
+      error: e => {
+        alert("Error deleting all orders")
+        this.loading = false;
+      }
     });
   }
 }

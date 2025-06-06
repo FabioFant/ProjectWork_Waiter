@@ -1,22 +1,45 @@
-<div class="container-fluid p-3 centered-flex">
-    <div class="info-box bg-primary-subtle border border-2 border-primary text-primary-emphasis centered-flex flex-column">
-        <div class="fs-4 fw-bold">Available</div>
-        <div class="fs-1 fw-bold">{{available}}</div>
-    </div>
-    <div class="info-box bg-secondary-subtle border border-2 border-secondary text-secondary-emphasis centered-flex flex-column">
-        <div class="fs-4 fw-bold">Occupied</div>
-        <div class="fs-1 fw-bold">{{occupied}}</div>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="loading" *ngIf="loading">
+        <div class="loader">
+            <div class="panWrapper">
+                <div class="pan">
+                    <div class="food"></div>
+                    <div class="panBase"></div>
+                    <div class="panHandle"></div>
+                </div>
+                <div class="panShadow"></div>
+            </div>
+        </div>
     </div>
 </div>
+<div *ngIf="!loading">
+    <div class="container-fluid p-3 centered-flex">
+        <div
+            class="info-box bg-primary-subtle border border-2 border-primary text-primary-emphasis centered-flex flex-column">
+            <div class="fs-4 fw-bold">Available</div>
+            <div class="fs-1 fw-bold">{{available}}</div>
+        </div>
+        <div
+            class="info-box bg-secondary-subtle border border-2 border-secondary text-secondary-emphasis centered-flex flex-column">
+            <div class="fs-4 fw-bold">Occupied</div>
+            <div class="fs-1 fw-bold">{{occupied}}</div>
+        </div>
+    </div>
 
-<hr class="mx-3 border border-2 border-dark opacity-75">
+    <hr class="mx-3 border border-2 border-dark opacity-75">
 
-<div class="container-fluid p-3 d-flex flex-wrap">
-    <div *ngFor="let table of tables" [routerLink]="['/tables', table.id]" [ngClass]="!table.occupied ? 'bg-primary' : 'bg-secondary'" class="box centered-flex flex-column text-white">
-        <div class="fs-2 fw-bold">{{table.id}}</div>
-        <div class="bg-dark bg-opacity-25 text-white rounded-pill text-center" [ngClass]=" table.occupied ? 'w-50' : 'w-75' ">
-            <i class="bi" [ngClass]=" table.occupied ? 'bi-person-fill' : 'bi-check-lg' "></i>
-            {{ table.occupied ? table.occupants : 'Available' }}
+    <div class="container-fluid p-3 d-flex flex-wrap">
+        <div *ngFor="let table of tables" [routerLink]="['/tables', table.id]"
+            [ngClass]="!table.occupied ? 'bg-primary' : 'bg-secondary'"
+            class="box centered-flex flex-column text-white">
+            <div class="fs-2 fw-bold">{{table.id}}</div>
+            <div
+                class="bg-dark bg-opacity-25 text-white rounded-pill text-center"
+                [ngClass]=" table.occupied ? 'w-50' : 'w-75' ">
+                <i class="bi"
+                    [ngClass]=" table.occupied ? 'bi-person-fill' : 'bi-check-lg' "></i>
+                {{ table.occupied ? table.occupants : 'Available' }}
+            </div>
         </div>
     </div>
 </div>

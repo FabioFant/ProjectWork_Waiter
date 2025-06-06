@@ -9,7 +9,7 @@ import { enviroment } from "../../enviroments/enviroment";
   providedIn: 'root'
 })
 export class AuthService {
-
+  
   private jwtHelper = new JwtHelperService();
 
   constructor(private http : HttpClient) { }

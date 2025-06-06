@@ -14,6 +14,7 @@ export class TablesComponent {
   tables: Table[] = [];
   available = '?';
   occupied = '?';
+  loading = true;
 
   constructor(private waiterService: WaiterService)
   {
@@ -28,6 +29,7 @@ export class TablesComponent {
 
       this.occupied = count.toString();
       this.available = (this.tables.length - count).toString();
+      this.loading = false;
     });
   }
 }

@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class BillComponent {
   ordini:Order[]=[];
   bill:number=0;
+  loading=true;
   constructor(private route:ActivatedRoute, private waiterService:WaiterService)
   {
     waiterService.GetTableBill(route.snapshot.params['id']).subscribe(r => {
@@ -22,6 +23,7 @@ export class BillComponent {
       {
         this.ordini[i].total=Math.floor(this.ordini[i].product.price*this.ordini[i].product.qty*100)/100;
         this.bill+=this.ordini[i].total;
+        this.loading=false;
       }
     });
   }

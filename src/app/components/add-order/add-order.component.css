@@ -5,13 +5,13 @@
 .accordion-button:not(.collapsed)::after {
     transform: var(--bs-accordion-btn-icon-transform) rotate(-180deg) !important; /* Applica la rotazione inversa e forza */
 }
-/* From Uiverse.io by vinodjangid07 */ 
+ 
 .loading {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 10em;
-    height: 400px; /* or any fixed height you prefer */
+    height: 400px;  
     width: 100%;
 }
 .loader {
