@@ -18,6 +18,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   tableId: number;
   ordini: Order[] = [];
   loading = true;
+  disabled = false;
 
   constructor(private route: ActivatedRoute, private service: WaiterService) {
     this.tableId = this.route.snapshot.params["id"]
@@ -33,12 +34,14 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   deleteOrder(orderId: number) {
+    this.disabled = true;
     this.service.DeleteTableOrderById(this.tableId, orderId).subscribe({
       next: () => {
         //togli l'ordine dalla lista egli ordini e dalla tabella
         this.ordini = this.ordini.filter(o => o.orderId != orderId);
+        this.disabled = false;
       },
-      error: e => alert("Error deleting order")
+      error: e => {alert("Error deleting order"); this.disabled = false;}
     });
   }
 
