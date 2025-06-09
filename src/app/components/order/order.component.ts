@@ -19,6 +19,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   ordini: Order[] = [];
   loading = true;
   disabled = false;
+  ordiniFiniti: Order[] = [];
 
   constructor(private route: ActivatedRoute, private service: WaiterService) {
     this.tableId = this.route.snapshot.params["id"]
@@ -66,6 +67,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   updateData(data: any)
   {
     this.ordini = data.orders;
+    this.ordiniFiniti = this.ordini.filter(o => o.completionDate == null);
     this.loading = false
   }
 

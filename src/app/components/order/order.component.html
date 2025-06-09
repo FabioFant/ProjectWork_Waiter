@@ -17,7 +17,7 @@
 <div *ngIf="!loading">
 <div class="container-fluid my-3">
     <div class="d-flex align-items-center justify-content-between my-3">
-            <button (click)="deleteAllOrders()" [disabled]="ordini.length == 0" class="btn bg-danger text-white fs-6" id="deleteAll">
+            <button (click)="deleteAllOrders()" [disabled]="ordiniFiniti.length == 0" class="btn bg-danger text-white fs-6" id="deleteAll">
                 Delete all <i class="bi bi-trash3-fill"></i>
             </button>
             <a routerLink="add" class="btn btn-primary shadow-sm fs-6">
