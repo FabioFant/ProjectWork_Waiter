@@ -51,7 +51,7 @@
 </div>
 
 <div class="py-5"></div>
-<button (click)="inviaOrdine()" class="btn btn-success btn-lg fixed-bottom w-100 py-3 shadow-lg rounded-0 d-flex justify-content-center align-items-center">
+<button (click)="inviaOrdine()" [disabled]="getCart()===0" class="btn btn-success btn-lg fixed-bottom w-100 py-3 shadow-lg rounded-0 d-flex justify-content-center align-items-center">
     <i class="bi bi-check-circle-fill me-2 fs-4"></i> Confirm new order
 </button>
 <div class="d-flex justify-content-center align-items-center">

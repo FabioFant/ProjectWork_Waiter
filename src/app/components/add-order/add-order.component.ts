@@ -14,12 +14,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 })
 
 export class AddOrderComponent {
-  categories:Category[] = [];
+  categories: Category[] = [];
   productsForCategory: Product[][] = [[]];
   tableId: number;
   loading = true;
 
-  constructor(private service:WaiterService, private route:ActivatedRoute, private router:Router) {
+  constructor(private service: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = this.route.snapshot.params["id"]
 
     this.service.GetAllCategories().subscribe({
@@ -60,12 +60,21 @@ export class AddOrderComponent {
   }
 
 
-  readProductOnStorage(product:Product):number{
+  readProductOnStorage(product: Product): number {
     const storedQty = localStorage.getItem(product.name);
     if (storedQty) {
       return parseInt(storedQty);
     }
     return 0; // Return null if no quantity is stored
+  }
+  getCart() {
+    let cart = 0;
+    for (const categoryId in this.productsForCategory) {
+      for (const product of this.productsForCategory[categoryId]) {
+        cart += this.readProductOnStorage(product);
+      }
+    }
+    return cart;
   }
 
   changeQuantity(product: Product, change: number) {
@@ -75,20 +84,19 @@ export class AddOrderComponent {
     }
   }
 
-  updateOrder(product:Product){
-    if(product.qty == 0) 
-    {
+  updateOrder(product: Product) {
+    if (product.qty == 0) {
       localStorage.removeItem(product.name);
-    } 
+    }
     else {
-      localStorage.setItem(product.name,  product.qty.toString());
+      localStorage.setItem(product.name, product.qty.toString());
     }
   }
 
-  inviaOrdine(){
+  inviaOrdine() {
     this.loading = true;
     const products = this.productsForCategory.flat().filter(product => product.qty > 0);
-    if(products.length > 0) {
+    if (products.length > 0) {
       this.service.AddTableOrder(this.tableId, products).subscribe({
         next: () => {
           // Clear local storage for products after order is sent
