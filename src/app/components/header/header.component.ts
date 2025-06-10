@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { filter } from 'rxjs';
+import { TablesComponent } from '../tables/tables.component';
+import { TableDetailComponent } from '../table-detail/table-detail.component';
+import { BillComponent } from '../bill/bill.component';
+import { OrderComponent } from '../order/order.component';
+import { AddOrderComponent } from '../add-order/add-order.component';
 
 @Component({
   selector: 'app-header',
@@ -16,34 +22,55 @@ export class HeaderComponent {
   id?:number;
   constructor (private router:Router, private authService:AuthService)
   {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.casa=true;
-        this.messaggio="Tables";
-        let url=event.url;
-        //console.log('URL aggiornato:', url);
-        let urlSeparato=url.split('/');
-        let indice=-1;
-        for(let i=0;i<urlSeparato.length;i++)
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const currentRoute = this.getCurrentRoute(this.router.routerState.root);
+        let componente=currentRoute.component;
+        switch(componente)
         {
-          if(urlSeparato[i]=="tables")
+          case TablesComponent:
           {
-            indice=i;
+            this.casa=true;
+            this.messaggio="Tables";
+            break;
+          }
+          case TableDetailComponent:
+          {
+            this.casa=true;
+            this.messaggio="Table "+currentRoute.url[1];
+            this.id=currentRoute.url[1];
+            break;
+          }
+          case BillComponent:
+          {
+            this.casa=false;
+            this.messaggio="Table "+currentRoute.url[1]+" - Bill";
+            this.id=currentRoute.url[1];
+            break;
+          }
+          case OrderComponent:
+          {
+            this.casa=false;
+            this.messaggio="Table "+currentRoute.url[1]+" - Order";
+            this.id=currentRoute.url[1];
+            break;
+          }
+          case AddOrderComponent:
+          {
+            this.casa=false;
+            this.messaggio="Table "+currentRoute.url[1]+" - Add";
+            this.id=currentRoute.url[1];
             break;
           }
         }
-        if(indice!=-1)
-        {
-          this.messaggio="Table "+urlSeparato[indice+1];
-          if(indice+1!=urlSeparato.length-1)
-          {
-            this.messaggio+=" - "+urlSeparato[indice+2];
-            this.casa=false;
-            this.id=parseInt(urlSeparato[indice+1]);
-          }
-        }
-      }
-    });
+      });
+  }
+  private getCurrentRoute(route: ActivatedRoute): any {
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route.snapshot;
   }
 
   Logout()

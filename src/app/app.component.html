@@ -1,3 +1,3 @@
-<app-header *ngIf="authService.isLogged()" ></app-header>
+<app-header *ngIf="authService.isLogged() && showHeader" ></app-header>
 <router-outlet></router-outlet>
 
