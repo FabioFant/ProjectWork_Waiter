@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import Category from '../../models/Category';
 import Product from '../../models/Product';
 import { WaiterService } from '../../services/waiter.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { interval, Subscription, switchMap } from 'rxjs';
+import { enviroment } from '../../../enviroments/enviroment';
 
 @Component({
   selector: 'app-add-order',
@@ -13,16 +15,18 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './add-order.component.css'
 })
 
-export class AddOrderComponent {
+export class AddOrderComponent implements OnInit, OnDestroy {
+  private polling!: Subscription;
+
   categories: Category[] = [];
   productsForCategory: Product[][] = [[]];
   tableId: number;
   loading = true;
 
-  constructor(private service: WaiterService, private route: ActivatedRoute, private router: Router) {
+  constructor(private waiterService: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = this.route.snapshot.params["id"]
 
-    this.service.GetAllCategories().subscribe({
+    this.waiterService.GetAllCategories().subscribe({
       next: r => {
         this.categories = r;
         if (this.categories.length === 0) {
@@ -31,7 +35,7 @@ export class AddOrderComponent {
         }
         let loadedCount = 0;
         this.categories.forEach(category => {
-          this.service.GetProductsByCategoryId(category.id).subscribe({
+          this.waiterService.GetProductsByCategoryId(category.id).subscribe({
             next: products => {
               this.productsForCategory[category.id] = products;
               this.productsForCategory[category.id].forEach(product => {
@@ -58,7 +62,6 @@ export class AddOrderComponent {
       }
     });
   }
-
 
   readProductOnStorage(product: Product): number {
     const storedQty = localStorage.getItem(product.name);
@@ -93,11 +96,11 @@ export class AddOrderComponent {
     }
   }
 
-  inviaOrdine() {
+  sendOrder() {
     this.loading = true;
     const products = this.productsForCategory.flat().filter(product => product.qty > 0);
     if (products.length > 0) {
-      this.service.AddTableOrder(this.tableId, products).subscribe({
+      this.waiterService.AddTableOrder(this.tableId, products).subscribe({
         next: () => {
           // Clear local storage for products after order is sent
           products.forEach(product => localStorage.removeItem(product.name));
@@ -105,6 +108,28 @@ export class AddOrderComponent {
           this.router.navigate(['tables/' + this.tableId + '/order']);
         }
       });
+    }
+  }
+
+  ngOnInit() {
+    this.polling = interval(enviroment.pollingInterval)
+      .pipe(
+        switchMap(() => this.waiterService.GetTableById(this.tableId))
+      )
+      .subscribe({
+        next: r => {
+          if(!r.occupied)
+            this.router.navigate([''], {
+              state: { tableClosed: true }
+            });
+        },
+        error: err => console.error('Polling error:', err)
+      });
+  }
+
+  ngOnDestroy() {
+    if( this.polling ) {
+      this.polling.unsubscribe();
     }
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WaiterService } from '../../services/waiter.service';
 import Table from '../../models/Table';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { interval, Subscription, switchMap } from 'rxjs';
 import { enviroment } from '../../../enviroments/enviroment';
 
@@ -20,12 +20,18 @@ export class TablesComponent implements OnInit, OnDestroy {
   occupied = '?';
   loading = true;
 
-  constructor(private waiterService: WaiterService)
+  showClosedTableMsg = false;
+
+  constructor(private waiterService: WaiterService, private router: Router)
   {
     this.waiterService.GetAllTables().subscribe({
       next: r => {this.updateData(r); this.loading = false},
       error: err => {console.error('Fetch error:', err); this.loading = false}
     });
+
+    const nav = this.router.getCurrentNavigation();
+    if(nav?.extras.state?.['tableClosed'])
+      this.showClosedTableMsg = true;
   }
 
   updateData(data: Table[]) 

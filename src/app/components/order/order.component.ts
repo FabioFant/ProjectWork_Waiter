@@ -1,9 +1,9 @@
-import { Component, NgModule, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { WaiterService } from '../../services/waiter.service';
 import Order from '../../models/Order';
 import { CommonModule } from '@angular/common';
-import { interval, Observable, Subscription, switchMap } from 'rxjs';
+import { catchError, forkJoin, interval, of, Subscription, switchMap } from 'rxjs';
 import { enviroment } from '../../../enviroments/enviroment';
 
 @Component({
@@ -21,9 +21,9 @@ export class OrderComponent implements OnInit, OnDestroy {
   disabled = false;
   ordiniFiniti: Order[] = [];
 
-  constructor(private route: ActivatedRoute, private service: WaiterService) {
+  constructor(private route: ActivatedRoute, private waiterService: WaiterService, private router: Router) {
     this.tableId = this.route.snapshot.params["id"]
-    this.service.GetTableOrder(this.tableId).subscribe({
+    this.waiterService.GetTableOrder(this.tableId).subscribe({
       next: r => {
         this.updateData(r);
       },
@@ -36,7 +36,7 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   deleteOrder(orderId: number) {
     this.disabled = true;
-    this.service.DeleteTableOrderById(this.tableId, orderId).subscribe({
+    this.waiterService.DeleteTableOrderById(this.tableId, orderId).subscribe({
       next: () => {
         //togli l'ordine dalla lista egli ordini e dalla tabella
         this.ordini = this.ordini.filter(o => o.orderId != orderId);
@@ -48,10 +48,10 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   deleteAllOrders() {
     this.loading = true;
-    this.service.DeleteAllTableOrders(this.tableId).subscribe({
+    this.waiterService.DeleteAllTableOrders(this.tableId).subscribe({
       next: () => {
         //togli tutti gli ordini dalla lista e dalla tabella se non sono stati preparati
-          this.service.GetTableOrder(this.tableId).subscribe({
+          this.waiterService.GetTableOrder(this.tableId).subscribe({
             next: r => this.updateData(r),
             error: err => console.error('Polling error:', err)
           });
@@ -71,20 +71,36 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.loading = false
   }
 
-  ngOnInit(): void 
+  ngOnInit() 
   {
     this.polling = interval(enviroment.pollingInterval)
       .pipe(
         // New request while ignoring the previous one if it hasn't completed yet
-        switchMap(() => this.service.GetTableOrder(this.tableId))
+        switchMap(() => forkJoin({
+          order : this.waiterService.GetTableOrder(this.tableId).pipe(
+            // If the bill is asked to a closed table, an error will be thrown
+            catchError(() => {
+              return of(null); // Create a null observable
+            })
+          ),
+          table : this.waiterService.GetTableById(this.tableId)
+        }))
       )
       .subscribe({
-        next: r => this.updateData(r),
+        next: ({order, table}) => {
+
+          if(!table.occupied)
+            this.router.navigate([''], {
+              state: { tableClosed: true }
+          });
+
+          this.updateData(order);
+        },
         error: err => console.error('Polling error:', err)
       });
   }
 
-  ngOnDestroy(): void 
+  ngOnDestroy()
   {
     if( this.polling ) {
       this.polling.unsubscribe();
