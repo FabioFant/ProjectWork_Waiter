@@ -62,14 +62,15 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   readProductOnStorage(product: Product): number {
     const storedQty = localStorage.getItem(product.name);
     if (storedQty) {
       return parseInt(storedQty);
     }
-    return 0; // Return null if no quantity is stored
+    return 0; 
   }
+  /*
+  
   getCart() {
     let cart = 0;
     for (const categoryId in this.productsForCategory) {
@@ -78,7 +79,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
       }
     }
     return cart;
-  }
+  }*/
 
   changeQuantity(product: Product, change: number) {
     if (product.qty + change >= 0) {
@@ -97,9 +98,9 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   }
 
   sendOrder() {
-    this.loading = true;
     const products = this.productsForCategory.flat().filter(product => product.qty > 0);
     if (products.length > 0) {
+      this.loading = true;
       this.waiterService.AddTableOrder(this.tableId, products).subscribe({
         next: () => {
           // Clear local storage for products after order is sent
