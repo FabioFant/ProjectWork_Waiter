@@ -33,6 +33,7 @@ export class AddOrderComponent implements OnInit, OnDestroy {
           this.loading = false;
           return;
         }
+        
         let loadedCount = 0;
         this.categories.forEach(category => {
           this.waiterService.GetProductsByCategoryId(category.id).subscribe({
