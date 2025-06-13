@@ -5,6 +5,7 @@ import Order from '../../models/Order';
 import { CommonModule } from '@angular/common';
 import { catchError, forkJoin, interval, of, Subscription, switchMap } from 'rxjs';
 import { enviroment } from '../../../enviroments/enviroment';
+import { errorContext } from 'rxjs/internal/util/errorContext';
 
 @Component({
   selector: 'app-order',
@@ -27,9 +28,9 @@ export class OrderComponent implements OnInit, OnDestroy {
       next: r => {
         this.updateData(r);
       },
-      error: e => {
-        alert("Error fetching orders");
-        this.loading = false;
+      error: err => {
+        console.log("Error fetching orders", err);
+        router.navigate(['notFound'])
       }
     })
   }

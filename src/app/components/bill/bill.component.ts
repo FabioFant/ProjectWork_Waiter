@@ -25,7 +25,7 @@ export class BillComponent implements OnInit, OnDestroy {
     this.tableId = this.route.snapshot.params['id'];
     waiterService.GetTableBill(this.tableId).subscribe({
       next: r => {this.updateData(r); this.loading = false},
-      error: err => {console.error('Fetch error:', err); this.loading = false}
+      error: err => {console.error('Fetch error:', err); router.navigate(['notFound'])}
     });
   }
 

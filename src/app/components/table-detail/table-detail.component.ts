@@ -26,10 +26,13 @@ export class TableDetailComponent implements OnInit, OnDestroy {
 
   constructor(private waiterService: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = Number(this.route.snapshot.paramMap.get('id'));
-    this.waiterService.GetTableById(this.tableId).subscribe(table => {
-      this.occupied = table.occupied;
-      this.loading = false;
-    });
+    this.waiterService.GetTableById(this.tableId).subscribe({
+        next: table => {
+          this.occupied = table.occupied;
+          this.loading = false;
+        },
+        error: err => {console.error('Table Not Found', err); router.navigate(['notFound'])}
+      });
   }
 
   checkOccupants(): boolean {

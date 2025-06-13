@@ -25,43 +25,48 @@ export class AddOrderComponent implements OnInit, OnDestroy {
 
   constructor(private waiterService: WaiterService, private route: ActivatedRoute, private router: Router) {
     this.tableId = this.route.snapshot.params["id"]
-
-    this.waiterService.GetAllCategories().subscribe({
-      next: r => {
-        this.categories = r;
-        if (this.categories.length === 0) {
-          this.loading = false;
-          return;
-        }
-        
-        let loadedCount = 0;
-        this.categories.forEach(category => {
-          this.waiterService.GetProductsByCategoryId(category.id).subscribe({
-            next: products => {
-              this.productsForCategory[category.id] = products;
-              this.productsForCategory[category.id].forEach(product => {
-                product.qty = this.readProductOnStorage(product);
-              });
-              loadedCount++;
-              if (loadedCount === this.categories.length) {
-                this.loading = false;
-              }
-            },
-            error: e => {
-              alert("Error fetching products for category");
-              loadedCount++;
-              if (loadedCount === this.categories.length) {
-                this.loading = false;
-              }
+    this.waiterService.GetTableById(this.tableId).subscribe({
+      next: r =>{
+        this.waiterService.GetAllCategories().subscribe({
+          next: r => {
+            this.categories = r;
+            if (this.categories.length === 0) {
+              this.loading = false;
+              return;
             }
-          });
+            
+            let loadedCount = 0;
+            this.categories.forEach(category => {
+              this.waiterService.GetProductsByCategoryId(category.id).subscribe({
+                next: products => {
+                  this.productsForCategory[category.id] = products;
+                  this.productsForCategory[category.id].forEach(product => {
+                    product.qty = this.readProductOnStorage(product);
+                  });
+                  loadedCount++;
+                  if (loadedCount === this.categories.length) {
+                    this.loading = false;
+                  }
+                },
+                error: e => {
+                  alert("Error fetching products for category");
+                  loadedCount++;
+                  if (loadedCount === this.categories.length) {
+                    this.loading = false;
+                  }
+                }
+              });
+            });
+          },
+          error: e => {
+            alert("Error fetching categories");
+            this.loading = false;
+          }
         });
       },
-      error: e => {
-        alert("Error fetching categories");
-        this.loading = false;
-      }
-    });
+      error: err => {console.error('Fetch error:', err); router.navigate(['notFound'])}
+    })
+    
   }
   readProductOnStorage(product: Product): number {
     const storedQty = localStorage.getItem(product.name);
