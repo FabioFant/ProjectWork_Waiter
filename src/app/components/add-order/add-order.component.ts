@@ -135,6 +135,8 @@ export class AddOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    const products = this.productsForCategory.flat().filter(product => product.qty > 0);
+    products.forEach(product => localStorage.removeItem(product.name));
     if( this.polling ) {
       this.polling.unsubscribe();
     }
